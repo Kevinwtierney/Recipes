@@ -11,7 +11,9 @@ struct RecipeFeaturedView: View {
     
     @EnvironmentObject var model:RecipeModel
     @State var isDetailViewShowing = false
+    @State var tabSelectionIndex = 0
     var body: some View {
+        
         
         VStack(alignment:.leading, spacing: 0){
             
@@ -23,7 +25,7 @@ struct RecipeFeaturedView: View {
             
             GeometryReader{ geo in
                 
-                TabView{
+                TabView(selection: $tabSelectionIndex){
                     
                     ForEach(0..<model.recipes.count){ index in
                         
@@ -52,6 +54,7 @@ struct RecipeFeaturedView: View {
                                     RecipeDetailView(recipe: model.recipes[index])
                                     
                                 }
+                                .tag(index)
                                 .buttonStyle(PlainButtonStyle())
                                 .frame(width: geo.size.width - 40 , height: geo.size.height - 100, alignment: .center)
                                 .cornerRadius(15)
@@ -73,17 +76,28 @@ struct RecipeFeaturedView: View {
             VStack(alignment:.leading, spacing: 10){
                 Text("Prep Time:")
                     .font(.headline)
-                Text("1 Hour")
+                Text(model.recipes[tabSelectionIndex].prepTime)
                 Text("Highlights:")
                     .font(.headline)
-                Text("Healthy, Hearty")
+                RecipeHighlightsView(highlights: model.recipes[tabSelectionIndex].highlights)
             }
             .padding([.leading,.bottom])
+        }.onAppear {
+            firstFeaturedIndex()
         }
         
     }
+    
+    func firstFeaturedIndex() {
+        
+        var index = model.recipes.firstIndex { (recipe) -> Bool in
+            return recipe.featured
+        }
+        
+        tabSelectionIndex = index ?? 0
+        
+    }
 }
-
 
 struct RecipeFeaturedView_Previews: PreviewProvider {
     static var previews: some View {
