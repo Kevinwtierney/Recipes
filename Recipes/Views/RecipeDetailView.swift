@@ -24,6 +24,12 @@ struct RecipeDetailView: View {
                     .scaledToFit()
                     .clipped()
                 
+                Text(recipe.name)
+                    .bold()
+                    .padding(.top,20)
+                    .padding(.leading)
+                    .font(.largeTitle)
+                
                 // MARK: Picker
                 VStack(alignment: .leading){
                     
@@ -69,7 +75,7 @@ struct RecipeDetailView: View {
                 .padding(.horizontal)
             }
         }
-        .navigationBarTitle(recipe.name)
+        
     }
 }
 
