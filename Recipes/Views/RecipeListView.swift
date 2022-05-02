@@ -10,6 +10,7 @@ import SwiftUI
 struct RecipeListView: View {
     
     @EnvironmentObject var model:RecipeModel
+    @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         
@@ -29,7 +30,8 @@ struct RecipeListView: View {
                             
                             NavigationLink(destination: RecipeDetailView(recipe:r)) {
                                 HStack(spacing: 20.0){
-                                    Image(r.image)
+                                    let image = UIImage(data: r.image ?? Data()) ?? UIImage()
+                                    Image(uiImage: image)
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 50,

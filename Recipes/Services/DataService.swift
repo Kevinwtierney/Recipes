@@ -9,7 +9,7 @@ import Foundation
 
 class DataService {
     
-   static func getLocalData() -> [Recipe] {
+   static func getLocalData() -> [RecipeJSON] {
         
         // parse local Json data
         
@@ -18,7 +18,7 @@ class DataService {
         
         // check if pathString data is not nil
         guard pathString != nil else {
-            return [Recipe]()
+            return [RecipeJSON]()
         }
         
         //create a url object
@@ -32,7 +32,7 @@ class DataService {
             let decoder = JSONDecoder()
             
             do {
-                let recipeData = try decoder.decode([Recipe].self, from: data)
+                let recipeData = try decoder.decode([RecipeJSON].self, from: data)
                 
                 // add the UUID's
                 
@@ -55,7 +55,7 @@ class DataService {
         catch {
             print(error)
         }
-        return[Recipe]()
+        return[RecipeJSON]()
     }
     
    

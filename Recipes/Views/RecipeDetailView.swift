@@ -18,8 +18,8 @@ struct RecipeDetailView: View {
             VStack(alignment:.leading){
                 
                 // MARK: Recipe image
-                
-                Image(recipe.image)
+                let image = UIImage(data: recipe.image ?? Data()) ?? UIImage()
+                Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .clipped()
@@ -48,22 +48,24 @@ struct RecipeDetailView: View {
                     
                 }
                 .padding()
-
+                
+                // MARK: Ingredients
                 VStack(alignment: .leading){
                     Text("Ingredients")
                         .font(Font.custom("Avenir Heavy", size: 16))
                         .padding([.bottom,.top], 5)
                     
-                    ForEach(recipe.ingredients) { item in
+                    ForEach(recipe.ingredients.allObjects as! [Ingredient]) { item in
                         Text("• " + RecipeModel.getPortion(ingredient: item , recipeServings: recipe.servings, targetServings: selectServingSize) + " " + item.name.lowercased())
                             .font(Font.custom("Avenir", size: 15))
                     }
                 }
                 .padding(.horizontal)
               
-                
+                // MARK: Divider
                 Divider()
                 
+                // MARK: Directions
                 VStack(alignment:.leading){
                     
                     Text("Directions")

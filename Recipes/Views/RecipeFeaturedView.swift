@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RecipeFeaturedView: View {
     
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @EnvironmentObject var model:RecipeModel
     @State var isDetailViewShowing = false
     @State var tabSelectionIndex = 0
@@ -27,7 +29,7 @@ struct RecipeFeaturedView: View {
                 
                 TabView(selection: $tabSelectionIndex){
                     
-                    ForEach(0..<model.recipes.count){ index in
+                    ForEach(0..<model.recipes.count) { index in
                         
                         if model.recipes[index].featured {
                             
@@ -41,7 +43,8 @@ struct RecipeFeaturedView: View {
                                         .foregroundColor(.white)
                                     
                                     VStack(spacing: 0){
-                                        Image(model.recipes[index].image)
+                                        let image = UIImage(data: model.recipes[index].image ?? Data()) ?? UIImage()
+                                        Image(uiImage: image)
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .clipped()
