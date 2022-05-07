@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ReciepTabView: View {
+    
+    @State var tabSelected = 0
     var body: some View {
         
-        TabView{
+        TabView(selection: $tabSelected){
             
             RecipeFeaturedView()
                 .tabItem {
@@ -18,15 +20,25 @@ struct ReciepTabView: View {
                         Image(systemName: "star.fill")
                         Text("featured")
                     }
-                }
+                }.tag(0)
             
             RecipeListView()
                 .tabItem {
+                    
                     VStack{
                         Image(systemName: "list.bullet")
                         Text("List")
                     }
-                }
+                }.tag(1)
+            
+            AddRecipeView(selectedImageSource: .photoLibrary, tabSelected: $tabSelected)
+                .tabItem {
+                    
+                    VStack{
+                        Image(systemName: "plus.circle")
+                        Text("Add")
+                    }
+                }.tag(2)
             
         }
         .environmentObject(RecipeModel())
